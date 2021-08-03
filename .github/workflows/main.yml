@@ -28,7 +28,3 @@ jobs:
       - name: ansible-lint
         uses: ansible/ansible-lint-action@v4.1.0.post0
 
-      - name: Check Ansible Ubuntu focal
-        uses: roles-ansible/check-ansible-ubuntu-focal-action@v0.4
-        with:
-          targets:  all
