@@ -11,7 +11,7 @@
     validate: "wpa_supplicant -c %s -i NaN"
   register: status
   failed_when:
-    - "'Invalid' in status.stdout"
+    - "status.stdout is defined and 'Invalid' in status.stdout"
   changed_when:
     - "status.diff[0].before != status.diff[0].after"
   notify:
