@@ -1,0 +1,24 @@
+---
+- name: wpa_supplicant configuration
+  template:
+    dest: "/etc/wpa_supplicant/wpa_supplicant-{{ wpa_supplicant_interface }}.conf"
+    src: templates/wpa_supplicant.conf.j2
+    owner: root
+    group: root
+    mode: 0640
+    # wpa_supplicant doesn't have option to check config
+    # everything that follows is an ugly workaround
+    validate: "wpa_supplicant -c %s -i NaN"
+  register: status
+  failed_when:
+    - "'Invalid' in status.stdout"
+  changed_when:
+    - "status.diff[0].before != status.diff[0].after"
+  notify:
+    - restart wpa_supplicant
+
+- name: wpa_supplicant service
+  service:
+    name: "wpa_supplicant@{{ wpa_supplicant_interface }}"
+    state: started
+    enabled: true

@@ -1,0 +1,22 @@
+# {{ ansible_managed }}
+# Reference: https://w1.fi/cgit/hostap/plain/wpa_supplicant/wpa_supplicant.conf
+
+{% for key,value in wpa_supplicant_config.items() %}
+{{ key }}={{ value }}
+{% endfor %}
+
+{% for cred in wpa_supplicant_credentials %}
+cred={
+{% for key,value in cred.items() %}
+    {{ key }}={{ value }}
+{% endfor %}
+}
+{% endfor %}
+
+{% for net in wpa_supplicant_networks %}
+network={
+{% for key,value in net.items() %}
+    {{ key }}={{ value }}
+{% endfor %}
+}
+{% endfor %}

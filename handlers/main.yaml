@@ -1,0 +1,5 @@
+---
+- name: restart wpa_supplicant
+  service:
+    name: "wpa_supplicant@{{ wpa_supplicant_interface }}"
+    state: restarted

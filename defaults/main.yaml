@@ -1,0 +1,32 @@
+---
+wpa_supplicant_interface: wlan0
+
+# global configuration, applies to all network blocks
+# these options are translated 1-to-1 into lines in wpa_supplicant.conf
+
+wpa_supplicant_config: {}
+# wpa_supplicant_config:
+#   update_config: 1
+#   country: GB
+
+wpa_supplicant_credentials: []
+# note that fields that are expected to be double-quoted by wpa_supplicant
+# need to be also single-quoted for Ansible
+# Example:
+# wpa_supplicant_credentials:
+#   - realm: '"example.com"''
+#     username: '"user@example.com"''
+
+wpa_supplicant_networks: []
+# note that fields that are expected to be double-quoted by wpa_supplicant
+# need to be also single-quoted for Ansible; this specifically applies to
+# SSID and PSK
+# Example:
+# wpa_supplicant_networks:
+#   - scan_ssid: 1
+#     ssid: '"MySSID"'
+#     key_mgmt: WPA-PSK
+# encrypt with ansible-vault
+#     psk: '"Kohjioqu5Iefae1iedee"'
+
+# Reference https://w1.fi/cgit/hostap/plain/wpa_supplicant/wpa_supplicant.conf
