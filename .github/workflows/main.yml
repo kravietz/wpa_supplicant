@@ -28,4 +28,7 @@ jobs:
       - name: ansible syntax check
         run: ansible-playbook tests/test.yml --syntax-check
 
+      - name: ansible run test playbook
+        run: ansible-playbook tests/test.yml --diff
+
 
