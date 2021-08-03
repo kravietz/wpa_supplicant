@@ -27,4 +27,8 @@ jobs:
 
       - name: ansible-lint
         uses: ansible/ansible-lint-action@v4.1.0.post0
+        
+      - name: Run a one-line script
+        run: ansible-playbook test/test.yml --syntax-check
+
 
