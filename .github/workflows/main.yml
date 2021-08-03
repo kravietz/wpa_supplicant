@@ -24,7 +24,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        
+      - name: ansible syntax check
+        run: ansible-playbook test/test.yml --syntax-check
 
-      - name: ansible-lint
-        uses: ansible/ansible-lint-action@v4.1.0.post0
 
