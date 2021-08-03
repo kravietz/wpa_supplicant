@@ -18,7 +18,8 @@
     - restart wpa_supplicant
 
 - name: wpa_supplicant service
-  service:
-    name: "wpa_supplicant@{{ wpa_supplicant_interface }}"
+  systemd:
+    daemon_reload: true
+    name: "wpa_supplicant@{{ wpa_supplicant_interface }}.service"
     state: started
     enabled: true
