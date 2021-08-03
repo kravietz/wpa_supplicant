@@ -1,0 +1,18 @@
+---
+wpa_supplicant_interface: wlan0
+wpa_supplicant_config:
+    ctrl_interface: DIR=/var/run/wpa_supplicant GROUP=netdev
+    country: GB
+    p2p_disabled: 1
+    okc: 1
+    pmf: 1
+wpa_supplicant_networks:
+    - scan_ssid: 1
+      ssid: '"TEST"'
+      psk: '"TEST-TEST-TEST"'
+      key_mgmt: WPA-PSK
+      ieee80211w: 1
+      group: TKIP CCMP
+      proactive_key_caching: 1
+      proto: WPA RSN
+      auth_alg: OPEN
