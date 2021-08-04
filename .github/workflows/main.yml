@@ -17,16 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: ls -lR
-      - run: env
-
-      - name: ansible syntax check
-        run: ansible-playbook tests/test.yml --syntax-check
-
       - name: Ansible Molecule
         uses: MonolithProjects/action-molecule@v1.4.3
-        # with:
-        #   molecule_options: --debug
-        #   molecule_working_dir: ${GITHUB_WORKSPACE}
-
 
