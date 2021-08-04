@@ -2,7 +2,7 @@
 - name: Converge
   hosts: all
   roles:
-    - role: wpa_supplicant
+    - role: ../../wpa_supplicant
       wpa_supplicant_interface: wlan0
       wpa_supplicant_config:
         ctrl_interface: DIR=/var/run/wpa_supplicant GROUP=netdev
