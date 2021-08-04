@@ -1,4 +1,24 @@
 ---
+- name: package name for RedHat fanily
+  set_fact:
+    wpa_supplicant_package: wpa_supplicant
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: package name for Arch
+  set_fact:
+    wpa_supplicant_package: wpa_supplicant
+  when: ansible_facts['os_family'] == "Arch"
+
+- name: package name for Debian family
+  set_fact:
+    wpa_supplicant_package: wpasupplicant
+  when: ansible_facts['os_family'] == "Debian"
+
+- name: wpa_supplicant installed
+  package:
+    name: "{{ wpa_supplicant_package }}"
+    update_cache: true
+
 - name: wpa_supplicant configuration
   template:
     dest: "/etc/wpa_supplicant/wpa_supplicant-{{ wpa_supplicant_interface }}.conf"
@@ -23,3 +43,5 @@
     name: "wpa_supplicant@{{ wpa_supplicant_interface }}.service"
     state: started
     enabled: true
+  # requires fully operational systemd in Docker
+  tags: molecule-notest
