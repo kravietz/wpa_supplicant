@@ -1,5 +1,6 @@
 galaxy_info:
-  author: Paweł Krawczyk
+  author: kravietz
+  role_name: wpa_supplicant
   description: wpa_supplicant management configuration with all options and systemd support.
   company: krvtz.net
   issue_tracker_url: https://github.com/kravietz/wpa_supplicant/issues
