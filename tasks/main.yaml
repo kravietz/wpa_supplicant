@@ -33,7 +33,8 @@
   failed_when:
     - "status.stdout is defined and 'Invalid' in status.stdout"
   changed_when:
-    - "status.diff[0].before != status.diff[0].after"
+    - status.changed
+    - "status.diff is not [] and status.diff[0].before != status.diff[0].after"
   notify:
     - restart wpa_supplicant
 
