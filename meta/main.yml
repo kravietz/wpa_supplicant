@@ -34,3 +34,5 @@ galaxy_info:
     - wifi
     - wpa_supplicant
     - linux
+
+dependencies: []
