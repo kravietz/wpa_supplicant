@@ -1,6 +1,9 @@
 ---
 wpa_supplicant_interface: wlan0
 
+# only used on RedHat, as Ubuntu has it hardcoded
+wpa_supplicant_drivers: nl80211,wext
+
 # global configuration, applies to all network blocks
 # these options are translated 1-to-1 into lines in wpa_supplicant.conf
 

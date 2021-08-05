@@ -1,16 +1,24 @@
 ---
-- name: package name for RedHat fanily
+- name: set Arch vars
   set_fact:
-    wpa_supplicant_package: wpa_supplicant
-  when: ansible_facts['os_family'] == "RedHat"
-
-- name: package name for Arch
-  set_fact:
+    # per-interface systemd service supported
+    config_file: "{{ wpa_supplicant_interface }}.conf"
+    service_name: "hostapd@{{ wpa_supplicant_interface }}.service"
     wpa_supplicant_package: wpa_supplicant
   when: ansible_facts['os_family'] == "Arch"
 
-- name: package name for Debian family
+- name: set RedHat vars
   set_fact:
+    config_file: hostapd.conf
+    service_name: hostapd.service
+    wpa_supplicant_package: wpa_supplicant
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: set Debian vars
+  set_fact:
+    # per-interface systemd service supported
+    config_file: "{{ wpa_supplicant_interface }}.conf"
+    service_name: "hostapd@{{ wpa_supplicant_interface }}.service"
     wpa_supplicant_package: wpasupplicant
   when: ansible_facts['os_family'] == "Debian"
 
@@ -19,9 +27,14 @@
     name: "{{ wpa_supplicant_package }}"
     update_cache: true
 
+- name: disable handler for Docker testing
+  set_fact:
+    handler_enabled: true
+  tags: molecule-notest
+
 - name: wpa_supplicant configuration
   template:
-    dest: "/etc/wpa_supplicant/wpa_supplicant-{{ wpa_supplicant_interface }}.conf"
+    dest: "/etc/wpa_supplicant/{{ config_file }}"
     src: templates/wpa_supplicant.conf.j2
     owner: root
     group: root
@@ -33,10 +46,29 @@
   failed_when:
     - "status.stdout is defined and 'Invalid' in status.stdout"
   changed_when:
-    - status.changed
-    - "status.diff is not [] and status.diff[0].before != status.diff[0].after"
+    - "status.diff is defined and status.diff != []"
   notify:
     - restart wpa_supplicant
+
+- name: RedHat sysconfig interfaces option
+  lineinfile:
+    dest: /etc/sysconfig/wpa_supplicant
+    line: 'INTERFACES="-i {{ wpa_supplicant_interface }}"'
+    regexp: '^#?INTERFACES='
+    owner: root
+    group: root
+    mode: 0640
+  when: ansible_facts['os_family'] == "RedHat"
+
+- name: RedHat sysconfig drivers option
+  lineinfile:
+    dest: /etc/sysconfig/wpa_supplicant
+    line: 'DRIVERS="-D {{ wpa_supplicant_drivers }}"'
+    regexp: '^#?DRIVERS='
+    owner: root
+    group: root
+    mode: 0640
+  when: ansible_facts['os_family'] == "RedHat"
 
 - name: wpa_supplicant service
   systemd:
