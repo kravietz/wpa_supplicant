@@ -17,7 +17,7 @@
 - name: set Debian vars
   set_fact:
     # per-interface systemd service supported
-    config_file: "{{ wpa_supplicant_interface }}.conf"
+    config_file: "wpa_supplicant-{{ wpa_supplicant_interface }}.conf"
     service_name: "wpa_supplicant@{{ wpa_supplicant_interface }}.service"
     wpa_supplicant_package: wpasupplicant
   when: ansible_facts['os_family'] == "Debian"
