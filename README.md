@@ -69,8 +69,17 @@ Assuming the above configuration in `host_vars`:
 
     - hosts: access_point
       roles:
-         - kravietz.wpa_supplicant
-         - shibumi.systemd-conf
+        - role: kravietz.wpa_supplicant
+          wpa_supplicant_interface: wlan0
+          wpa_supplicant_config:
+            ctrl_interface: DIR=/var/run/wpa_supplicant GROUP=netdev
+            country: GB
+          wpa_supplicant_networks:
+            - scan_ssid: 1
+              ssid: '"TEST"'
+              psk: '"TEST-TEST-TEST"'
+              key_mgmt: WPA-PSK
+        - role: shibumi.systemd-conf
 
 
 License

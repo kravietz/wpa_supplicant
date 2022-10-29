@@ -1,12 +1,11 @@
-# This is a basic workflow to help you get started with Actions
-
-name: Molecule
+---
+name: molecule
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
   workflow_dispatch:
 
@@ -16,7 +15,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          path: "${{ github.repository }}"
 
       - name: Ansible Molecule
-        uses: MonolithProjects/action-molecule@v1.4.3
+        uses: gofrolist/molecule-action@v2.3.2
+        with:
+          molecule_working_dir: "${{ github.repository }}"
+
 
