@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: version
-        run: basename ${{ github.ref }}
+        run: echo "::set-output name=version::$(/usr/bin/basename ${{ github.ref }})"
         id: version
 
       - name: release
