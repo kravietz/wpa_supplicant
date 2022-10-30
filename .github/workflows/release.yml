@@ -41,7 +41,7 @@ jobs:
       - name: Sign release with Sigstore
         uses: sigstore/gh-action-sigstore-python@v0.0.9
         with:
-          inputs: ${{ github.ref }}.tar.gz
+          inputs: ${{ steps.version.outputs.version }}.tar.gz
           release-signing-artifacts: true
           upload-signing-artifacts: true
           
