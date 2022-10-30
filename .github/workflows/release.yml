@@ -16,13 +16,17 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v2
 
+      - name: version
+    	run: basename ${{ github.ref }}
+   	 id: version
+
       - name: release
         uses: actions/create-release@v1
         id: create_release
         with:
           draft: false
           prerelease: false
-          release_name: ${{ github.ref }}
+          release_name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -47,8 +51,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.ref }}.tar.gz
-          asset_name: ${{ github.ref }}.tar.gz
+          asset_path: ${{ steps.version.outputs.version }}.tar.gz
+          asset_name: ${{ steps.version.outputs.version }}.tar.gz
           asset_content_type: application/gzip
 
           
@@ -58,8 +62,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.ref }}.tar.gz.crt
-          asset_name: ${{ github.ref }}.tar.gz.crt
+          asset_path: ${{ steps.version.outputs.version }}.tar.gz.crt
+          asset_name: ${{ steps.version.outputs.version }}.tar.gz.crt
           asset_content_type: application/x-x509-ca-cert
 
       - name: upload sigstore signature
@@ -68,8 +72,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ github.ref }}.tar.gz.sig
-          asset_name: ${{ github.ref }}.tar.gz.sig
+          asset_path: ${{ steps.version.outputs.version }}.tar.gz.sig
+          asset_name: ${{ steps.version.outputs.version }}.tar.gz.sig
           asset_content_type: application/octet-stream
 
       - name: Build and Deploy Collection
