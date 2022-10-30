@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v2
 
       - name: version
-    	run: basename ${{ github.ref }}
-   	 id: version
+        run: basename ${{ github.ref }}
+        id: version
 
       - name: release
         uses: actions/create-release@v1
